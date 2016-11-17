@@ -24,7 +24,13 @@ defmodule Lob.Validators.CoreTest do
     rule = %Str{max: 2}
     assert validate(rule, "", %{}, []) == []
     assert validate(rule, "z", %{}, []) == []
+    assert validate(rule, "ii", %{}, []) == []
     assert validate(rule, "abc", %{}, []) |> length > 0
+  end
+
+  test "ensures max is integer" do
+    rule = %Str{max: "2"}
+    assert validate(rule, "", %{}, []) |> length > 0
   end
 
   test "validates min length correctly" do
@@ -33,5 +39,24 @@ defmodule Lob.Validators.CoreTest do
     assert validate(rule, "abc", %{}, []) == []
     assert validate(rule, "abcd", %{}, []) == []
   end
+
+  test "ensures min is integer" do
+    rule = %Str{min: "2"}
+    assert validate(rule, "", %{}, []) |> length > 0
+  end
+
+  test "validates regex correctly" do
+    rule = %Str{regex: ~r/foo/}
+    assert validate(rule, "", %{}, []) |> length > 0
+    assert validate(rule, "foo", %{}, []) == []
+    assert validate(rule, "blah foo", %{}, []) == []
+  end
+
+  test "ensures regex is regex" do
+    rule = %Str{regex: "2"}
+    assert validate(rule, "", %{}, []) |> length > 0
+  end
+
+
 
 end
