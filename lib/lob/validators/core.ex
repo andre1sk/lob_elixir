@@ -1,9 +1,24 @@
 defprotocol Lob.Validators.Core.Validate do
   def validate(rule, val, data, errors)
+  def apply?(rule, data)
 end
 
+defmodule Lob.Validators.Core.Apply do
+  defmacro __using__(_params) do
+    quote do
+      def apply?(%{apply?: true}, _) do
+        true
+      end
+      def apply?(%{apply?: fun}, data) when is_function(fun) do
+        fun.(data)
+      end
+    end
+  end
+end
+
+
 defmodule Lob.Validators.Core.Str do
-  defstruct min: 0, max: nil, when: nil, not: nil, regex: nil, exists_in: nil
+  defstruct min: 0, max: nil, apply?: true, regex: nil, exists_in: nil
 
   def validate_max(errors, _, nil) do
     errors
@@ -44,6 +59,7 @@ defmodule Lob.Validators.Core.Str do
 end
 
 defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Str do
+  use Lob.Validators.Core.Apply
   alias Lob.Validators.Core.Str
 
   def validate(rule, val, data, errors) when is_binary(val) do
@@ -57,6 +73,18 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Str do
   end
 
 end
+
+defmodule Lob.Validators.Core.Req do
+  defstruct apply?: true
+end
+
+defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Req do
+  use Lob.Validators.Core.Apply
+  def validate(_, val, _, errors) do
+    val != nil && errors || [ "value is required"| errors]
+  end
+end
+
 
 defmodule Lob.Validators.Core.Map do
   defstruct min: 0, max: nil, when: nil, not: nil, key: nil, value: nil

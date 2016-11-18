@@ -1,4 +1,4 @@
-defmodule Lob.Validators.CoreTest do
+defmodule Lob.Validators.Core.StrTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Core.Str
   import Lob.Validators.Core.Validate
@@ -57,6 +57,14 @@ defmodule Lob.Validators.CoreTest do
     assert validate(rule, "", %{}, []) |> length > 0
   end
 
+  test "apply? is implemented" do
+    assert  apply?(%Str{}, %{}) == true
+  end
+
+  test "apply? is flase if apply? func returns false" do
+    rule = %Str{apply?: &(&1[:it] != :what)}
+    assert  apply?(rule, %{it: :what}) == false
+  end
 
 
 end
