@@ -1,4 +1,5 @@
 defprotocol Lob.Validators.Core.Validate do
+  @spec validate(%{atom => any}, any, any, any) :: any
   def validate(rule, val, data, errors)
   def apply?(rule, data)
 end

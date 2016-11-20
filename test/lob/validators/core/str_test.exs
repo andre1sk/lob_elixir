@@ -5,7 +5,7 @@ defmodule Lob.Validators.Core.StrTest do
 
   test "can define Lob.Validators.Core.Str" do
     rule=%Str{}
-    assert rule.__struct__==Lob.Validators.Core.Str
+    assert rule.__struct__== Str
   end
 
   test "can validate Str" do
@@ -14,7 +14,7 @@ defmodule Lob.Validators.Core.StrTest do
     assert res == []
   end
 
-  test "produces error if passed something other then binary" do
+  test "produces an error if passed something other then binary" do
     rule=%Str{}
     res = validate(rule, %{}, %{}, [])
     assert length(res) > 0
@@ -25,36 +25,50 @@ defmodule Lob.Validators.Core.StrTest do
     assert validate(rule, "", %{}, []) == []
     assert validate(rule, "z", %{}, []) == []
     assert validate(rule, "ii", %{}, []) == []
-    assert validate(rule, "abc", %{}, []) |> length > 0
+    assert validate(rule, "abc", %{}, []) |> length == 1
   end
 
   test "ensures max is integer" do
     rule = %Str{max: "2"}
-    assert validate(rule, "", %{}, []) |> length > 0
+    assert validate(rule, "", %{}, []) |> length == 1
   end
 
   test "validates min length correctly" do
     rule = %Str{min: 3}
-    assert validate(rule, "", %{}, []) |> length > 0
+    assert validate(rule, "", %{}, []) |> length == 1
     assert validate(rule, "abc", %{}, []) == []
     assert validate(rule, "abcd", %{}, []) == []
   end
 
   test "ensures min is integer" do
     rule = %Str{min: "2"}
-    assert validate(rule, "", %{}, []) |> length > 0
+    assert validate(rule, "", %{}, []) |> length == 1
   end
 
   test "validates regex correctly" do
     rule = %Str{regex: ~r/foo/}
-    assert validate(rule, "", %{}, []) |> length > 0
+    assert validate(rule, "", %{}, []) |> length == 1
     assert validate(rule, "foo", %{}, []) == []
     assert validate(rule, "blah foo", %{}, []) == []
   end
 
   test "ensures regex is regex" do
     rule = %Str{regex: "2"}
-    assert validate(rule, "", %{}, []) |> length > 0
+    assert validate(rule, "", %{}, []) |> length == 1
+  end
+
+  test "in is map or list" do
+    assert validate(%Str{in: "2"}, "z", %{}, []) |> length == 1
+    assert validate(%Str{in: ["z"]}, "z", %{}, []) == []
+    assert validate(%Str{in: %{"z"=>"z"}}, "z", %{}, []) == []
+  end
+
+  test "value is in produces no errors" do
+    assert validate(%Str{in: ["cool"]}, "cool", %{}, []) == []
+  end
+
+  test "value is not in produces error" do
+    assert validate(%Str{in: ["cool"]}, "z", %{}, []) |> length == 1
   end
 
   test "apply? is implemented" do

@@ -21,7 +21,7 @@ defmodule Lob.Validators.Core.Str do
   def validate_min(errors, val, min) when is_integer(min) do
     len = String.length(val)
     ok? = len >= min
-    ok? && errors || [ "#{len} is less than min allowed #{min}" | errors]
+    ok? && errors || [ "#{len} is less than min allowed length #{min}" | errors]
   end
   def validate_min(errors, _, min) do
     ["min: expecting integer got #{inspect min} instead" | errors]
@@ -40,6 +40,22 @@ defmodule Lob.Validators.Core.Str do
     end
   end
 
+  @spec validate_regex(list[String.t], String.t, map | list | nil) :: list[String.t]
+  def validate_in(errors, _, nil) do
+    errors
+  end
+  def validate_in(errors, val, in_data) when is_list(in_data) do
+    ok? = Enum.member?(in_data, val)
+    ok? && errors || [ "#{inspect val} is not in allowed list" | errors]
+  end
+  def validate_in(errors, val, in_data) when is_map(in_data) do
+    ok? = Map.has_key?(in_data, val)
+    ok? && errors || [ "#{inspect val} is not in allowed map" | errors]
+  end
+  def validate_in(errors, _, in_data) do
+    ["in: expecting map or list got #{inspect in_data} instead" | errors]
+  end
+
 end
 
 defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Str do
@@ -52,6 +68,7 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Str do
     |> Str.validate_max(val, rule.max)
     |> Str.validate_min(val, rule.min)
     |> Str.validate_regex(val, rule.regex)
+    |> Str.validate_in(val, rule.in)
   end
   def validate(_, val, _, errors) do
     ["val must be a string got #{inspect val} instead" | errors]

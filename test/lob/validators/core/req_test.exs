@@ -5,7 +5,7 @@ defmodule Lob.Validators.Core.ReqTest do
 
   test "can define Lob.Validators.Core.Req" do
     rule = %Req{}
-    assert rule.__struct__ == Lob.Validators.Core.Req
+    assert rule.__struct__ == Req
   end
 
   test "produces no error if value is present" do

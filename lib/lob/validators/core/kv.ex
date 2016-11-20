@@ -15,12 +15,17 @@ defmodule Lob.Validators.Core.KV do
     validate(rule, val, data, errors)
   end
 
-  def validate_max(errors, nil, _) do
+  def validate_max(errors, _, nil) do
     errors
   end
-  def validate_max(errors, val, max) do
-    len = Map.keys(val) |> length
+  def validate_max(errors, val, max) when is_integer(max) do
+    len = map_size(val)
+    len <= max && errors || ["number of kv pairs #{len} > max: #{max}"| errors]
   end
+  def validate_max(errors, _, max) do
+     ["max needs to be an integer got #{inspect max} instead"| errors]
+  end
+
 end
 
 defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.KV do
@@ -30,6 +35,7 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.KV do
   def validate(rule, val, data, errors) do
     val
     |>Enum.reduce(errors, &KV.validate_item(&1, &2, rule, val))
+    |>KV.validate_max(val, rule.max)
   end
 
 end

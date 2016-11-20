@@ -7,6 +7,7 @@ defmodule Lob.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: Coverex.Task],
      deps: deps()]
   end
 
@@ -27,6 +28,9 @@ defmodule Lob.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:dialyxir, "~> 0.4", only: [:dev]}]
+    [
+      {:dialyxir, "~> 0.4", only: [:dev]},
+      {:coverex, "~> 1.4.10", only: :test}
+    ]
   end
 end
