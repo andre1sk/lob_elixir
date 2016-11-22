@@ -9,6 +9,11 @@ defmodule Lob.Validators.Core.KVTest do
     assert rule.__struct__ == KV
   end
 
+  test "produces no errors for nil" do
+    rule = %KV{}
+    assert validate(rule, nil, %{}, []) == []
+  end
+
   test "key that viloates rule raises error" do
     rule = %KV{key: %Str{max: 2}}
     assert validate(rule,%{"abc" => "z"},%{}, []) != []
@@ -50,6 +55,12 @@ defmodule Lob.Validators.Core.KVTest do
     rule = %KV{key: %Str{max: 10}, value: %Str{max: 10}, max: 1}
     data = %{"zzz" => "boom", "abc" => "zoooom"}
     assert validate(rule, data, %{}, []) |> length == 1
+  end
+
+  test "number of kv pairs == max produces no errors" do
+    rule = %KV{key: %Str{max: 10}, value: %Str{max: 10}, max: 2}
+    data = %{"zzz" => "boom", "abc" => "zoooom"}
+    assert validate(rule, data, %{}, []) == []
   end
 
   test "apply? is implemented" do

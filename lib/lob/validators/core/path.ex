@@ -18,7 +18,10 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Path do
   use Lob.Validators.Core.Apply
   alias Lob.Validators.Core.Validate
   alias Lob.Validators.Core.Path
-
+  
+  def validate(_, nil, _, errors) do
+    errors
+  end
   def validate(rule, val, data, errors) do
     rule.path
     |> Validate.validate(val, data, errors)

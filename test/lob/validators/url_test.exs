@@ -1,11 +1,16 @@
 defmodule Lob.Validators.Core.URLTest do
   use ExUnit.Case, async: true
-  alias Lob.Validators.Core.URL
+  alias Lob.Validators.URL
   import Lob.Validators.Core.Validate
 
   test "can define url" do
     rule = %URL{}
     assert rule.__struct__ == URL
+  end
+
+  test "produces no errors for nil" do
+    rule = %URL{}
+    assert validate(rule, nil, %{}, []) == []
   end
 
   test "valid https url produces no errors" do

@@ -8,6 +8,11 @@ defmodule Lob.Validators.Core.FileTest do
     assert rule.__struct__ == File
   end
 
+  test "File produces no errors for nil" do
+    rule = %File{}
+    assert validate(rule, nil, %{}, []) == []
+  end
+
   test "File produces error if none of the url, path, content are set" do
     rule = %File{}
     assert validate(rule, %{}, %{}, []) |> length == 1

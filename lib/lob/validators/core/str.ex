@@ -63,6 +63,9 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Str do
   alias Lob.Validators.Core.Str
 
   @spec validate(map, any, map, list[String.t]) :: list[String.t]
+  def validate(_, nil, _, errors) do
+    errors
+  end
   def validate(rule, val, data, errors) when is_binary(val) do
     errors
     |> Str.validate_max(val, rule.max)

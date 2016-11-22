@@ -8,6 +8,11 @@ defmodule Lob.Validators.Core.StrTest do
     assert rule.__struct__== Str
   end
 
+  test "produces no errors for nil" do
+    rule = %Str{}
+    assert validate(rule, nil, %{}, []) == []
+  end
+
   test "can validate Str" do
     rule=%Str{}
     res = validate(rule, "blah", %{}, [])

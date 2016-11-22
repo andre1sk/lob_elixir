@@ -32,6 +32,9 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.KV do
   use Lob.Validators.Core.Apply
   alias Lob.Validators.Core.KV
 
+  def validate(_, nil, _, errors) do
+    errors
+  end
   def validate(rule, val, data, errors) do
     val
     |>Enum.reduce(errors, &KV.validate_item(&1, &2, rule, val))

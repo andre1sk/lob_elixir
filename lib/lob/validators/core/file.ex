@@ -1,7 +1,7 @@
 defmodule Lob.Validators.Core.File do
   alias Lob.Validators.Core.Str
   alias Lob.Validators.Core.Path
-  alias Lob.Validators.Core.URL
+  alias Lob.Validators.URL
   import Lob.Validators.Core.Validate
 
   defstruct name: %Str{min: 1}, content: %Str{min: 10}, path: %Path{}, url: %URL{}, apply?: true
@@ -28,6 +28,9 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.File do
   alias Lob.Validators.Core.File
   alias Lob.Validators.Core.Validate
 
+  def validate(_, nil, _, errors) do
+    errors
+  end
   def validate(rule, val, data, errors) do
     only_one_errors = File.validate_only_one(errors, val)
     if only_one_errors == [] do

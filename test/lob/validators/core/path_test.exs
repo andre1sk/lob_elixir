@@ -8,6 +8,11 @@ defmodule Lob.Validators.Core.PathTest do
     assert rule.__struct__ == Path
   end
 
+  test "produces no errors for nil" do
+    rule = %Path{}
+    assert validate(rule, nil, %{}, []) == []
+  end
+
   test "valid path produces no errors" do
     rule = %Path{}
     path = "./test/fixtures/letter.pdf"
