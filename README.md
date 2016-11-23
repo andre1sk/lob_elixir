@@ -1,24 +1,3 @@
-# Lob
+# Elixir Lob API client
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add `lob_elixir` to your list of dependencies in `mix.exs`:
-
-    ```elixir
-    def deps do
-      [{:lob_elixir, "~> 0.1.0"}]
-    end
-    ```
-
-  2. Ensure `lob_elixir` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:lob_elixir]]
-    end
-    ```
-
+**Work in progress**
