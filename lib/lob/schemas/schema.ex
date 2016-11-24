@@ -1,4 +1,8 @@
 defmodule Lob.Schemas.Schema do
+  @moduledoc """
+  Functions for schema definition
+  """
+
   defmacro __using__(_params) do
     quote do
       import Lob.Validators.Core.Validate
@@ -12,7 +16,6 @@ defmodule Lob.Schemas.Schema do
       alias Lob.Validators.Core.Bool
       alias Lob.Validators.Core.Int
 
-      #TODO: move to a module
       def str do
         [%Str{}]
       end

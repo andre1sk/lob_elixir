@@ -1,7 +1,11 @@
 defmodule Lob.Schemas.Address do
-use Lob.Schemas.Schema
-alias Lob.Data.Countries
-alias Lob.Data.States
+  @moduledoc """
+  Fuctions for Address schema definition
+  """
+
+  use Lob.Schemas.Schema
+  alias Lob.Data.Countries
+  alias Lob.Data.States
 
   def schema do
     str200 = %Str{min: 1, max: 200}

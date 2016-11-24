@@ -1,5 +1,8 @@
 defmodule Lob.Schemas.Postcard do
-use Lob.Schemas.Schema
+  @moduledoc """
+  Fuctions for Letter schema definition
+  """
+  use Lob.Schemas.Schema
 
   def schema do
     %{

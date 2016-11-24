@@ -15,7 +15,7 @@ defmodule Lob.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger, :httpoison]]
   end
 
   # Dependencies can be Hex packages:
@@ -29,6 +29,8 @@ defmodule Lob.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:httpoison, "~> 0.9.0"},
+      {:poison, "~> 2.0"},
       {:dialyxir, "~> 0.4", only: [:dev]},
       {:coverex, "~> 1.4.10", only: :test}
     ]
