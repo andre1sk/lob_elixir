@@ -4,7 +4,7 @@ defmodule Lob.Validators.PostcardTest do
   import Lob.Validators.Core.Validate
 
   test "produces errors for empty postcard" do
-    expect = %{front: ["value is required"], to: ["value is required"]}
+    expect = %{front: ["value is required"], to: ["value is required"], message: [":back or :messages is required"]}
     assert validate(%Postcard{}, %{}, %{}, %{}) == expect
   end
 

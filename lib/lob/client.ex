@@ -8,6 +8,10 @@ defmodule Lob.Client do
     HTTPoison.post(uri, {type, body}, [],  options(api_key)) |> res
   end
 
+  def delete(uri, body \\"", api_key) do
+    HTTPoison.request(:delete, uri, body, [], options(api_key)) |> res
+  end
+
   defp res({:error, error} = res), do: res
   defp res({:ok, resp} = res) do
     body = Poison.decode!(resp.body)

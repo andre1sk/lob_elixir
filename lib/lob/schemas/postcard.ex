@@ -12,10 +12,16 @@ defmodule Lob.Schemas.Postcard do
       front: req_file,
       back: file,
       data: data,
-      message: [%Str{max: 350}],
+      message: [msg_back, %Str{max: 350}],
       size: str_in(["4x6", "6x9", "6x11"]),
       metadata: metadata
     }
   end
+
+  def msg_back do
+    fun = &(&1[:back] == nil && &1[:messgae] == nil)
+    %Req{apply?: fun, error: ":back or :messages is required"}
+  end
+
 
 end

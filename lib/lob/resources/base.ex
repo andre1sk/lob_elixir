@@ -36,7 +36,7 @@ defmodule Lob.Resources.Base do
       def retrieve(id, api_key) do
         Client.get(Base.base_uri() <> name() <> "/" <> URI.encode_www_form(id), api_key)
       end
-
+      #TODO: defoverridable
     end
   end
 end

@@ -4,7 +4,7 @@ defmodule Lob.Resources.AddressesTest do
   import Lob.Test.Util
 
   test "list no params" do
-    {status, data} = Addresses.list(api_key())
+    {status, _} = Addresses.list(api_key())
     assert status == :ok
   end
 
@@ -21,12 +21,12 @@ defmodule Lob.Resources.AddressesTest do
   end
 
   test "list with metadata" do
-    {status, data} = Addresses.list(%{limit: 1, metadata: %{"k"=>"v"}}, api_key())
+    {status, _} = Addresses.list(%{limit: 1, metadata: %{"k"=>"v"}}, api_key())
     assert status == :ok
   end
 
   test "list with date_created:" do
-    {status, data} = Addresses.list(%{limit: 1, date_created: %{gt: "2016-11-19"}}, api_key())
+    {status, _} = Addresses.list(%{limit: 1, date_created: %{gt: "2016-11-19"}}, api_key())
     assert status == :ok
   end
 

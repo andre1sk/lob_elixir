@@ -17,7 +17,7 @@ defmodule Lob.Schemas.Address do
     us_zip=%Str{apply?: us?, regex: ~r/\d{5}(-\d{4}){0,1}/}
     other_zip=%Str{apply?: not_us?, max: 40}
     %{
-      description: [],
+      description: str,
       name: name_co(50),
       company: name_co(50),
       address_line1: [%Req{}, str200],

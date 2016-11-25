@@ -20,8 +20,16 @@ defmodule Lob.Schemas.Schema do
         [%Str{}]
       end
 
+      def req_str do
+        [%Req{}, %Str{}]
+      end
+
       def str_in(data) do
         [%Str{in: data}]
+      end
+
+      def req_str_in(data) do
+        [%Req{}, %Str{in: data}]
       end
 
       def bool do

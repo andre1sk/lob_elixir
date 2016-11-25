@@ -3,11 +3,11 @@ defmodule Lob.Resources.Letters do
   Functions for working with Letters API endpoint
   """
 
-  alias Lob.Schemas.Address
+  alias Lob.Schemas.Letter
   use Lob.Resources.Base
 
   def name, do: "letters"
 
-  def schema, do: Letters.schema()
+  def schema, do: Letter.schema()
 
 end

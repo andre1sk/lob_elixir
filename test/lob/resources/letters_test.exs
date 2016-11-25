@@ -1,10 +1,11 @@
 defmodule Lob.Resources.LettersTest do
   use ExUnit.Case, async: true
   alias Lob.Resources.Letters
+  alias Lob.Resources.Addresses
   import Lob.Test.Util
 
   test "list no params" do
-    {status, data} = Letters.list(api_key())
+    {status, _} = Letters.list(api_key())
     assert status == :ok
   end
 
@@ -21,12 +22,12 @@ defmodule Lob.Resources.LettersTest do
   end
 
   test "list with metadata" do
-    {status, data} = Letters.list(%{limit: 1, metadata: %{"k"=>"v"}}, api_key())
+    {status, _} = Letters.list(%{limit: 1, metadata: %{"k"=>"v"}}, api_key())
     assert status == :ok
   end
 
   test "list with date_created:" do
-    {status, data} = Letters.list(%{limit: 1, date_created: %{gt: "2016-11-19"}}, api_key())
+    {status, _} = Letters.list(%{limit: 1, date_created: %{gt: "2016-11-19"}}, api_key())
     assert status == :ok
   end
 
@@ -39,11 +40,21 @@ defmodule Lob.Resources.LettersTest do
   end
 
   test "create valid letter" do
-
+    {_, data} = Addresses.list(%{limit: 1}, api_key())
+    id = (data.body["data"] |> hd)["id"]
+    letter = %{
+      to: id,
+      from: id,
+      color: true,
+      file: %{path: "./test/fixtures/letter.pdf", name: "file"},
+    }
+    {status, data} = Letters.create(letter, api_key())
+    assert status == :ok
+    assert data.body["id"] |> String.starts_with?("ltr_")
   end
 
   test "create invalid letter produces error" do
-  
+
   end
 
 
