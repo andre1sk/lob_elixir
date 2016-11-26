@@ -2,41 +2,10 @@ defmodule Lob.Resources.AddressesTest do
   use ExUnit.Case, async: true
   alias Lob.Resources.Addresses
   import Lob.Test.Util
+  require Lob.Tests.Shared
 
-  test "list no params" do
-    {status, _} = Addresses.list(api_key())
-    assert status == :ok
-  end
+  Lob.Tests.Shared.resource(Addresses)
 
-  test "list with limit" do
-    {status, data} = Addresses.list(%{limit: 5},api_key())
-    assert status == :ok
-    assert data.body["count"] <= 5
-  end
-
-  test "list with total count" do
-    {status, data} = Addresses.list(%{limit: 1, include: true}, api_key())
-    assert Map.has_key?(data.body, "total_count")
-    assert status == :ok
-  end
-
-  test "list with metadata" do
-    {status, _} = Addresses.list(%{limit: 1, metadata: %{"k"=>"v"}}, api_key())
-    assert status == :ok
-  end
-
-  test "list with date_created:" do
-    {status, _} = Addresses.list(%{limit: 1, date_created: %{gt: "2016-11-19"}}, api_key())
-    assert status == :ok
-  end
-
-  test "retrieve" do
-    {_, data} = Addresses.list(%{limit: 1}, api_key())
-    id = (data.body["data"] |> hd)["id"]
-    {status, data} = Addresses.retrieve(id, api_key())
-    assert status == :ok
-    assert data.body["id"] == id
-  end
 
   test "create valid US address" do
     address = %{

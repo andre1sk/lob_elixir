@@ -2,6 +2,9 @@ defmodule Lob.Validators.LetterTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Letter
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
+
+  Lob.Tests.Shared.validator(Letter)
 
   test "produces errors for empty letter" do
     expect = %{color: ["value is required"], file: ["value is required"],
@@ -106,7 +109,7 @@ defmodule Lob.Validators.LetterTest do
     refute Map.has_key?(res, :data)
   end
 
-  test "invalid data produces no errors" do
+  test "invalid data produces  errors" do
     res = validate(%Letter{}, %{data: %{"k\""=>"v"}}, %{}, %{})
     assert Map.has_key?(res, :data)
   end

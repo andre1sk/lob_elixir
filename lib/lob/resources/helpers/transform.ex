@@ -3,7 +3,7 @@ defmodule Lob.Resources.Helpers.Transform do
   Helper functions for encoding a map into format acceptable for HTTPoision
   for form POST.
   """
-  
+
   def transform(map, parent \\"") do
       try do
         res =
@@ -29,6 +29,12 @@ defmodule Lob.Resources.Helpers.Transform do
       file_name = "\"" <> path <> "\""
       extra = {["form-data"], [name: name, filename: file_name]}
       {:file, path, extra, []}
+    end
+    defp transform_item({k, %{content: content}}, "") do
+        {to_string(k), content}
+    end
+    defp transform_item({k, %{url: url}}, "") do
+        {to_string(k), url}
     end
     defp transform_item({k,v}, _) when is_map(v) do
       {:ok, res} = transform(v, to_string(k))

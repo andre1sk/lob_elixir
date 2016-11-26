@@ -2,11 +2,9 @@ defmodule Lob.Validators.Core.StrTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Core.Str
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
 
-  test "can define Lob.Validators.Core.Str" do
-    rule=%Str{}
-    assert rule.__struct__== Str
-  end
+  Lob.Tests.Shared.validator(Str)
 
   test "produces no errors for nil" do
     rule = %Str{}
@@ -30,12 +28,12 @@ defmodule Lob.Validators.Core.StrTest do
     assert validate(rule, "", %{}, []) == []
     assert validate(rule, "z", %{}, []) == []
     assert validate(rule, "ii", %{}, []) == []
-    assert validate(rule, "abc", %{}, []) |> length == 1
+    assert validate(rule, "abc", %{}, []) == ["3 is bigger than max allowed 2"]
   end
 
   test "ensures max is integer" do
     rule = %Str{max: "2"}
-    assert validate(rule, "", %{}, []) |> length == 1
+    assert validate(rule, "", %{}, []) == ["max: expecting integer got \"2\" instead"]
   end
 
   test "validates min length correctly" do
@@ -46,24 +44,24 @@ defmodule Lob.Validators.Core.StrTest do
   end
 
   test "ensures min is integer" do
-    rule = %Str{min: "2"}
-    assert validate(rule, "", %{}, []) |> length == 1
+    rule = %Str{min: "a"}
+    assert validate(rule, "", %{}, []) == ["min: expecting integer got \"a\" instead"]
   end
 
   test "validates regex correctly" do
     rule = %Str{regex: ~r/foo/}
-    assert validate(rule, "", %{}, []) |> length == 1
+    assert validate(rule, "", %{}, []) == ["\"\" did not match regex"]
     assert validate(rule, "foo", %{}, []) == []
     assert validate(rule, "blah foo", %{}, []) == []
   end
 
   test "ensures regex is regex" do
     rule = %Str{regex: "2"}
-    assert validate(rule, "", %{}, []) |> length == 1
+    assert validate(rule, "", %{}, []) == ["regex: expecting regex got \"2\" instead"]
   end
 
   test "in is map or list" do
-    assert validate(%Str{in: "2"}, "z", %{}, []) |> length == 1
+    assert validate(%Str{in: "2"}, "z", %{}, []) == ["in: expecting map or list got \"2\" instead"]
     assert validate(%Str{in: ["z"]}, "z", %{}, []) == []
     assert validate(%Str{in: %{"z"=>"z"}}, "z", %{}, []) == []
   end
@@ -73,17 +71,7 @@ defmodule Lob.Validators.Core.StrTest do
   end
 
   test "value is not in produces error" do
-    assert validate(%Str{in: ["cool"]}, "z", %{}, []) |> length == 1
+    assert validate(%Str{in: ["cool"]}, "z", %{}, []) == ["\"z\" is not in allowed list"]
   end
-
-  test "apply? is implemented" do
-    assert  apply?(%Str{}, %{}) == true
-  end
-
-  test "apply? is flase if apply? func returns false" do
-    rule = %Str{apply?: &(&1[:it] != :what)}
-    assert  apply?(rule, %{it: :what}) == false
-  end
-
 
 end

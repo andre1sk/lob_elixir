@@ -2,11 +2,9 @@ defmodule Lob.Validators.Core.IntTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Core.Int
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
 
-  test "can define Lob.Validators.Core.Str" do
-    rule=%Int{}
-    assert rule.__struct__== Int
-  end
+  Lob.Tests.Shared.validator(Int)
 
   test "produces no errors for nil" do
     rule = %Int{}
@@ -28,15 +26,5 @@ defmodule Lob.Validators.Core.IntTest do
     assert validate(rule, 2, %{}, []) == []
     assert validate(rule, 3, %{}, []) == []
   end
-
-  test "apply? is implemented" do
-    assert  apply?(%Int{}, %{}) == true
-  end
-
-  test "apply? is flase if apply? func returns false" do
-    rule = %Int{apply?: &(&1[:it] != :what)}
-    assert  apply?(rule, %{it: :what}) == false
-  end
-
 
 end

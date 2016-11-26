@@ -2,6 +2,9 @@ defmodule Lob.Validators.AddressTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Address
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
+
+  Lob.Tests.Shared.validator(Address)
 
   test "produces errors for empty address" do
     expect = %{address_line1: ["value is required"],
@@ -31,4 +34,5 @@ defmodule Lob.Validators.AddressTest do
       address_state: "MI", address_zip: "48823"}
     assert validate(%Address{}, address, %{}, %{}) == %{}
   end
+  
 end

@@ -3,11 +3,9 @@ defmodule Lob.Validators.Core.KVTest do
   alias Lob.Validators.Core.KV
   alias Lob.Validators.Core.Str
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
 
-  test "can define KV" do
-    rule = %KV{}
-    assert rule.__struct__ == KV
-  end
+  Lob.Tests.Shared.validator(KV)
 
   test "produces no errors for nil" do
     rule = %KV{}
@@ -63,12 +61,4 @@ defmodule Lob.Validators.Core.KVTest do
     assert validate(rule, data, %{}, []) == []
   end
 
-  test "apply? is implemented" do
-    assert apply?(%KV{}, %{}) == true
-  end
-
-  test "apply? is flase when apply? func returns false" do
-    rule = %KV{apply?: &(&1[:it] != :what)}
-    assert  apply?(rule, %{it: :what}) == false
-  end
 end

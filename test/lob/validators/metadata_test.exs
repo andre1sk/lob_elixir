@@ -2,11 +2,9 @@ defmodule Lob.Validators.MetadataTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Metadata
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
 
-  test "can define metadata" do
-    rule = %Metadata{}
-    assert rule.__struct__ == Metadata
-  end
+  Lob.Tests.Shared.validator(Metadata)
 
   test "produces no errors for nil" do
     rule = %Metadata{}
@@ -30,4 +28,5 @@ defmodule Lob.Validators.MetadataTest do
     metadata = for i <- 1..20, into: %{} ,do: {"k" <> to_string(i), "blah"}
     assert validate(rule, metadata, %{}, []) == []
   end
+
 end

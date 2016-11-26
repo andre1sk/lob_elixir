@@ -1,7 +1,6 @@
 defmodule Lob.Validators.Schema do
   alias Lob.Validators.Core.Validate
 
-
   def validate(schema, data) do
     ndata =
       Map.keys(schema)

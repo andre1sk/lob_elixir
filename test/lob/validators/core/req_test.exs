@@ -2,11 +2,9 @@ defmodule Lob.Validators.Core.ReqTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Core.Req
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
 
-  test "can define Lob.Validators.Core.Req" do
-    rule = %Req{}
-    assert rule.__struct__ == Req
-  end
+  Lob.Tests.Shared.validator(Req)
 
   test "produces no error if value is present" do
     rule = %Req{}
@@ -17,15 +15,7 @@ defmodule Lob.Validators.Core.ReqTest do
   test "produces error if value is not present" do
     rule = %Req{}
     res = validate(rule, nil, %{}, [])
-    assert length(res) == 1
+    assert res == ["value is required"]
   end
 
-  test "apply? is implemented" do
-    assert  apply?(%Req{}, %{}) == true
-  end
-
-  test "apply? is flase if apply? func returns false" do
-    rule = %Req{apply?: &(&1[:it] != :what)}
-    assert  apply?(rule, %{it: :what}) == false
-  end
 end

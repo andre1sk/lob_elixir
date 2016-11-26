@@ -2,6 +2,9 @@ defmodule Lob.Validators.PostcardTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Postcard
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
+
+  Lob.Tests.Shared.validator(Postcard)
 
   test "produces errors for empty postcard" do
     expect = %{front: ["value is required"], to: ["value is required"], message: [":back or :messages is required"]}

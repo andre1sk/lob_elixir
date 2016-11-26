@@ -2,11 +2,9 @@ defmodule Lob.Validators.Core.FileTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Core.File
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
 
-  test "can define File" do
-    rule = %File{}
-    assert rule.__struct__ == File
-  end
+  Lob.Tests.Shared.validator(File)
 
   test "File produces no errors for nil" do
     rule = %File{}
@@ -46,15 +44,6 @@ defmodule Lob.Validators.Core.FileTest do
     rule = %File{}
     value = %{path: "./test/fixtures/letter.pdf", name: "letter"}
     assert validate(rule, value, %{}, []) == []
-  end
-
-  test "apply? is implemented" do
-    assert  apply?(%File{}, %{}) == true
-  end
-
-  test "apply? is flase if apply? func returns false" do
-    rule = %File{apply?: &(&1[:it] != :what)}
-    assert  apply?(rule, %{it: :what}) == false
   end
 
 end

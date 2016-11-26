@@ -2,41 +2,9 @@ defmodule Lob.Resources.BankAccountsTest do
   use ExUnit.Case, async: true
   alias Lob.Resources.BankAccounts
   import Lob.Test.Util
+  require Lob.Tests.Shared
 
-  test "list no params" do
-    {status, _} = BankAccounts.list(api_key())
-    assert status == :ok
-  end
-
-  test "list with limit" do
-    {status, data} = BankAccounts.list(%{limit: 5},api_key())
-    assert status == :ok
-    assert data.body["count"] <= 5
-  end
-
-  test "list with total count" do
-    {status, data} = BankAccounts.list(%{limit: 1, include: true}, api_key())
-    assert Map.has_key?(data.body, "total_count")
-    assert status == :ok
-  end
-
-  test "list with metadata" do
-    {status, _} = BankAccounts.list(%{limit: 1, metadata: %{"k"=>"v"}}, api_key())
-    assert status == :ok
-  end
-
-  test "list with date_created:" do
-    {status, _} = BankAccounts.list(%{limit: 1, date_created: %{gt: "2016-11-19"}}, api_key())
-    assert status == :ok
-  end
-
-  test "retrieve" do
-    {_, data} = BankAccounts.list(%{limit: 1}, api_key())
-    id = (data.body["data"] |> hd)["id"]
-    {status, data} = BankAccounts.retrieve(id, api_key())
-    assert status == :ok
-    assert data.body["id"] == id
-  end
+  Lob.Tests.Shared.resource(BankAccounts)
 
   test "creates valid Bank Account" do
     acc =%{
@@ -61,6 +29,36 @@ defmodule Lob.Resources.BankAccountsTest do
     }
     {status, _} = BankAccounts.create(acc, api_key())
     assert status == :error
+  end
+
+  test "verify bank account" do
+    acc =%{
+      description: "verify test",
+      routing_number: "021272655",
+      account_number: "1235678",
+      account_type: "company",
+      signatory: "Some Dude",
+    }
+    {_, data} = BankAccounts.create(acc, api_key())
+    id = data.body["id"]
+    {status, data} = BankAccounts.verify(id, 5, 10, api_key())
+    assert status == :ok
+    assert data.body["verified"]
+  end
+
+  test "delete bank account" do
+    acc =%{
+      description: "test delete",
+      routing_number: "021272655",
+      account_number: "1235678",
+      account_type: "company",
+      signatory: "Some Dude",
+    }
+    {_, data} = BankAccounts.create(acc, api_key())
+    id = data.body["id"]
+    {status, data} = BankAccounts.delete(id, api_key())
+    assert status == :ok
+    assert data.body["deleted"]
   end
 
 end

@@ -15,7 +15,7 @@ defmodule Lob.Resources.BankAccounts do
       when is_integer(d1) and d1 > 0 and d1 < 101 and
            is_integer(d2) and d2 > 0 and d2 < 101 do
     case id_uri(id) do
-      {:ok, uri} -> Client.get(uri <> "/verify/?amounts[]=#{d1}amounts[]=#{d2}", api_key)
+      {:ok, uri} -> Client.post(uri <> "/verify", [{"amounts[]", d1}, {"amounts[]", d2}], api_key)
       {:error, error} -> {:error, error}
     end
   end
@@ -23,7 +23,7 @@ defmodule Lob.Resources.BankAccounts do
 
   def delete(id, api_key) do
     case id_uri(id) do
-      {:ok, uri} -> Client.delete(id_uri(id), api_key)
+      {:ok, uri} -> Client.delete(uri, api_key)
       {:error, error} -> {:error, error}
     end
   end

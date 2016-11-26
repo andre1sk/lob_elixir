@@ -40,4 +40,24 @@ defmodule Lob.Resources.Helpers.TransformTest do
     assert res.type == :multipart
   end
 
+  test "file content" do
+    data = %{
+      some_file: %{content: "blah"},
+    }
+    {status, res} = Transform.transform(data)
+    assert status == :ok
+    assert res.data == [{"some_file", "blah"}]
+    assert res.type == :form
+  end
+
+  test "file url" do
+    data = %{
+      some_file: %{url: "http://google.com"},
+    }
+    {status, res} = Transform.transform(data)
+    assert status == :ok
+    assert res.data == [{"some_file", "http://google.com"}]
+    assert res.type == :form
+  end
+
 end

@@ -2,11 +2,9 @@ defmodule Lob.Validators.DataTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Data
   import Lob.Validators.Core.Validate
+  require Lob.Tests.Shared
 
-  test "can define Data" do
-    rule = %Data{}
-    assert rule.__struct__ == Data
-  end
+  Lob.Tests.Shared.validator(Data)
 
   test "produces no errors for nil" do
     rule = %Data{}

@@ -15,6 +15,8 @@ defmodule Lob.Schemas.Schema do
       alias Lob.Validators.Address
       alias Lob.Validators.Core.Bool
       alias Lob.Validators.Core.Int
+      alias Lob.Validators.Core.FloatingPoint
+      alias Lob.Validators.Core.Error
 
       def str do
         [%Str{}]
@@ -30,6 +32,10 @@ defmodule Lob.Schemas.Schema do
 
       def req_str_in(data) do
         [%Req{}, %Str{in: data}]
+      end
+
+      def int do
+        [%Int{}]
       end
 
       def bool do
