@@ -5,6 +5,7 @@ defmodule Lob.Validators.LetterTest do
   require Lob.Tests.Shared
 
   Lob.Tests.Shared.validator(Letter)
+  Lob.Tests.Shared.schema_meta(Letter)
 
   test "produces errors for empty letter" do
     expect = %{color: ["value is required"], file: ["value is required"],
@@ -163,16 +164,6 @@ defmodule Lob.Validators.LetterTest do
     refute Map.has_key?(res2, :extra_service)
     res3 = validate(%Letter{}, %{extra_service: []}, %{}, %{})
     assert Map.has_key?(res3, :extra_service)
-  end
-
-  test "valid metadata produces no errors" do
-    res = validate(%Letter{}, %{metadata: %{"k"=>"v"}}, %{}, %{})
-    refute Map.has_key?(res, :metadata)
-  end
-
-  test "invalid metadata produces an error" do
-    res = validate(%Letter{}, %{metadata: %{"k\\"=>"v"}}, %{}, %{})
-    assert Map.has_key?(res, :metadata)
   end
 
 end

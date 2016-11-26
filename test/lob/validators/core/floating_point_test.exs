@@ -1,4 +1,4 @@
-defmodule Lob.Validators.Core.IntTest do
+defmodule Lob.Validators.Core.FloatingPointTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Core.FloatingPoint
   import Lob.Validators.Core.Validate

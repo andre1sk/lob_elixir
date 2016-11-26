@@ -1,10 +1,11 @@
-defmodule Lob.Validators.PostcardTest do
+defmodule Lob.Validators.CheckTest do
   use ExUnit.Case, async: true
   alias Lob.Validators.Check
   import Lob.Validators.Core.Validate
   require Lob.Tests.Shared
 
   Lob.Tests.Shared.validator(Check)
+  Lob.Tests.Shared.schema_meta(Check)
 
   test "produces errors for empty Check" do
     expect = %{
@@ -152,16 +153,5 @@ defmodule Lob.Validators.PostcardTest do
     res = validate(%Check{}, %{mail_type: "carrier_pigeon"}, %{}, %{})
     assert Map.has_key?(res, :mail_type)
   end
-
-  test "valid metadata produces no errors" do
-    res = validate(%Check{}, %{metadata: %{"k"=>"v"}}, %{}, %{})
-    refute Map.has_key?(res, :metadata)
-  end
-
-  test "invalid metadata produces an error" do
-    res = validate(%Check{}, %{metadata: %{"k\\"=>"v"}}, %{}, %{})
-    assert Map.has_key?(res, :metadata)
-  end
-
 
 end

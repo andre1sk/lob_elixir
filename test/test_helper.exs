@@ -26,6 +26,20 @@ defmodule Lob.Tests.Shared do
     end
   end
 
+  defmacro schema_meta(s) do
+    quote do
+      test "valid metadata produces no errors" do
+        res = validate(struct(unquote(s)), %{metadata: %{"k"=>"v"}}, %{}, %{})
+        refute Map.has_key?(res, :metadata)
+      end
+
+      test "invalid metadata produces an error" do
+        res = validate(struct(unquote(s)), %{metadata: %{"k\\"=>"v"}}, %{}, %{})
+        assert Map.has_key?(res, :metadata)
+      end
+    end
+  end
+
   defmacro resource(r) do
     quote do
 

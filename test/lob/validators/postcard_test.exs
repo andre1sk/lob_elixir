@@ -5,6 +5,7 @@ defmodule Lob.Validators.PostcardTest do
   require Lob.Tests.Shared
 
   Lob.Tests.Shared.validator(Postcard)
+  Lob.Tests.Shared.schema_meta(Postcard)
 
   test "produces errors for empty postcard" do
     expect = %{front: ["value is required"], to: ["value is required"], message: [":back or :messages is required"]}
@@ -137,16 +138,6 @@ defmodule Lob.Validators.PostcardTest do
   test "invalid size produces  error" do
     res = validate(%Postcard{}, %{size: "4x13"}, %{}, %{})
     assert Map.has_key?(res, :size)
-  end
-
-  test "valid metadata produces no errors" do
-    res = validate(%Postcard{}, %{metadata: %{"k"=>"v"}}, %{}, %{})
-    refute Map.has_key?(res, :metadata)
-  end
-
-  test "invalid metadata produces an error" do
-    res = validate(%Postcard{}, %{metadata: %{"k\\"=>"v"}}, %{}, %{})
-    assert Map.has_key?(res, :metadata)
   end
 
 end

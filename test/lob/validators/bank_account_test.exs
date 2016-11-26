@@ -5,6 +5,7 @@ defmodule Lob.Validators.BankAccountTest do
   require Lob.Tests.Shared
 
   Lob.Tests.Shared.validator(BankAccount)
+  Lob.Tests.Shared.schema_meta(BankAccount)
 
   test "produces errors for empty account" do
     expect = %{
@@ -26,13 +27,4 @@ defmodule Lob.Validators.BankAccountTest do
     assert validate(%BankAccount{}, acc, %{}, %{}) == %{}
   end
 
-  test "valid metadata produces no errors" do
-    res = validate(%BankAccount{}, %{metadata: %{"k"=>"v"}}, %{}, %{})
-    refute Map.has_key?(res, :metadata)
-  end
-
-  test "invalid metadata produces an error" do
-    res = validate(%BankAccount{}, %{metadata: %{"k\\"=>"v"}}, %{}, %{})
-    assert Map.has_key?(res, :metadata)
-  end
 end
