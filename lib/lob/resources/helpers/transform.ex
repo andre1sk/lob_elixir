@@ -44,7 +44,7 @@ defmodule Lob.Resources.Helpers.Transform do
       {to_string(k), to_string(v)}
     end
     defp transform_item({k,v}, "") do
-        {to_string(k), v}
+        {to_string(k), to_string(v)}
     end
     defp transform_item({k,v}, parent) do
         {parent <> "[" <> to_string(k) <> "]", v}

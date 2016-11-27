@@ -1,2 +1,0 @@
-defmodule Lob do
-end
