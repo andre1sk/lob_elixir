@@ -7,7 +7,12 @@ Covered endpoints:
 * [letters](#letters) - Lob.Resources.Letters
 * [postcards](#postcards) - Lob.Resources.Postcards
 
-
+#### Install
+Note: development is still in progress
+to install add to mix.exs deps
+{:lob_elixir, github: "andre1sk/lob_elixir"}
+and run mix deps.get
+and add :lob_elixir to applications: [:lob_elixir] list in mix.exs
 
 
 ##### API
@@ -19,7 +24,7 @@ The field names are identical to the names in the docs just convert them to atom
 
     address = %{
       name: "John Doe",
-      address_line1: "1600 Amphitheatre Parkway",
+      address_line1: "1600 Amphitheatre Parkway"
       address_city: "Mountain View",
       address_state: "CA",
       address_zip: "94043",
