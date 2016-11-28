@@ -32,17 +32,54 @@ defmodule Lob.Resources.CheckTest do
     assert data.body["id"] |> String.starts_with?("chk_")
   end
 
-  test "invalid Check produces error", context do
+  test "creates valid Check with logo", context do
     check = %{
       to: context[:addr_id],
       from: context[:addr_id],
       bank_account: context[:acc_id],
-      amount: 1_000_000.10,
+      amount: 100.01,
+      logo: %{path: "./test/fixtures/logo.png", name: "logo"}
+    }
+    {status, data} = Checks.create(check, api_key())
+    assert status == :ok
+    assert data.body["id"] |> String.starts_with?("chk_")
+  end
+
+  test "creates valid Check with check_bottom", context do
+    check = %{
+      to: context[:addr_id],
+      from: context[:addr_id],
+      bank_account: context[:acc_id],
+      amount: 50.01,
+      check_bottom: %{content: "<html style=\"margin-top: 9in\">This is so much fun</html>"}
+    }
+    {status, data} = Checks.create(check, api_key())
+    assert status == :ok
+    assert data.body["id"] |> String.starts_with?("chk_")
+  end
+
+  test "creates valid Check with attachment", context do
+    check = %{
+      to: context[:addr_id],
+      from: context[:addr_id],
+      bank_account: context[:acc_id],
+      amount: 500.99,
+      attachment: %{content: "<html>This is best attachment ever</html>"}
+    }
+    {status, data} = Checks.create(check, api_key())
+    assert status == :ok
+    assert data.body["id"] |> String.starts_with?("chk_")
+  end
+
+  test "invalid Check produces error", context do
+    check = %{
+      to: context[:addr_id],
+      from: context[:addr_id],
+      bank_account: "bank_bad_id",
+      amount: 99.00,
     }
     {status, _data} = Checks.create(check, api_key())
     assert status == :error
   end
-
-
 
 end

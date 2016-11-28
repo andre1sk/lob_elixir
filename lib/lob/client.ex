@@ -12,11 +12,11 @@ defmodule Lob.Client do
     HTTPoison.request(:delete, uri, body, [], options(api_key)) |> res
   end
 
-  defp res({:error, _} = res), do: res
+  defp res({:error, error}), do: {:error, {:network, error}}
   defp res({:ok, resp}) do
     body = Poison.decode!(resp.body)
     ok? = resp.status_code < 400
-    !ok? && {:error, %{error: body["error"], headers: resp.headers, status: resp.status_code}}
+    !ok? && {:error, {:app, %{error: body["error"], headers: resp.headers, status: resp.status_code}}}
       || {:ok, %{body: body, headers: resp.headers, status: resp.status_code}}
   end
 

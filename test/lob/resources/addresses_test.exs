@@ -6,7 +6,6 @@ defmodule Lob.Resources.AddressesTest do
 
   Lob.Tests.Shared.resource(Addresses)
 
-
   test "create valid US address" do
     address = %{
       name: "John Doe",
@@ -31,7 +30,7 @@ defmodule Lob.Resources.AddressesTest do
     }
     {status, data} = Addresses.create(address, api_key())
     assert status == :error
-    assert data == %{address_zip: ["value is required"]}
+    assert data ==  {:validation, %{address_zip: ["value is required"]}}
   end
 
   test "create valid Int. address" do
@@ -54,7 +53,20 @@ defmodule Lob.Resources.AddressesTest do
     }
     {status, data} = Addresses.create(address, api_key())
     assert status == :error
-    assert data == %{address_line1: ["value is required"]}
+    assert data == {:validation, %{address_line1: ["value is required"]}}
+  end
+
+  test "delete address" do
+    address = %{
+      name: "John Doe delete",
+      address_line1: "1600 Amphitheatre Parkway",
+      address_city: "Kyiv",
+      address_country: "UA",
+    }
+    {:ok, data} = Addresses.create(address, api_key())
+    {status, data} = Addresses.delete(data.body["id"] , api_key())
+    assert status == :ok
+    assert data.body["deleted"] == true
   end
 
 end

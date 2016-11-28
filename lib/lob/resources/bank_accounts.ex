@@ -28,10 +28,4 @@ defmodule Lob.Resources.BankAccounts do
     end
   end
 
-  defp id_uri(id) when is_binary(id) do
-    enc_id = URI.encode_www_form(id)
-    {:ok, Lob.Resources.Base.base_uri() <> name() <>"/"<> enc_id}
-  end
-  defp id_uri(id), do: {:error, "expecting string got #{inspect id} instead"}
-
 end

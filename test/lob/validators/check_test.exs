@@ -28,12 +28,12 @@ defmodule Lob.Validators.CheckTest do
   end
 
   test "produces error if amount is too big" do
-    res = validate(%Check{}, %{amount: 1_000_000.01}, %{}, %{})
+    res = validate(%Check{}, %{amount: 1_000_000.00}, %{}, %{})
     assert Map.has_key?(res, :amount)
   end
 
   test "produces no error if amount is equal to max" do
-    res = validate(%Check{}, %{amount: 1_000_000.00}, %{}, %{})
+    res = validate(%Check{}, %{amount: 999_999.99}, %{}, %{})
     refute Map.has_key?(res, :amount)
   end
 

@@ -5,6 +5,9 @@ defmodule Lob.Resources.Base do
 
   @callback name() :: String.t
   @callback schema() :: map
+  @callback create(%{atom => any}, String.t) :: {:ok, map} | {:error, {atom, map}}
+  @callback retrieve(String.t, String.t) :: {:ok, map} | {:error, {atom, map}}
+  @callback list(map, String.t) :: {:ok, map} | {:error, {atom, map}}
 
   def base_uri do
     "https://api.lob.com/v1/"
@@ -24,7 +27,7 @@ defmodule Lob.Resources.Base do
         {status, res} = (errors == %{}) && Transform.transform(data) || {:error, errors}
         case status do
           :ok -> Client.post(Base.base_uri() <> name(), res.data, api_key, res.type)
-          :error -> {:error, res}
+          :error -> {:error, {:validation, res}}
         end
       end
 
@@ -36,7 +39,14 @@ defmodule Lob.Resources.Base do
       def retrieve(id, api_key) do
         Client.get(Base.base_uri() <> name() <> "/" <> URI.encode_www_form(id), api_key)
       end
-      #TODO: defoverridable
+
+      defp id_uri(id) when is_binary(id) do
+        enc_id = URI.encode_www_form(id)
+        {:ok, Lob.Resources.Base.base_uri() <> name() <>"/"<> enc_id}
+      end
+      defp id_uri(id), do: {:error, "expecting string got #{inspect id} instead"}
+
+      defoverridable [create: 2, list: 2, retrieve: 2]
     end
   end
 end

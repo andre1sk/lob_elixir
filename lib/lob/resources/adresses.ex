@@ -10,4 +10,11 @@ defmodule Lob.Resources.Addresses do
 
   def schema, do: Address.schema()
 
+  def delete(id, api_key) do
+    case id_uri(id) do
+      {:ok, uri} -> Client.delete(uri, api_key)
+      {:error, error} -> {:error, error}
+    end
+  end
+
 end
