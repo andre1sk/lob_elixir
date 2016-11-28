@@ -35,7 +35,7 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.KV do
   def validate(_, nil, _, errors) do
     errors
   end
-  def validate(rule, val, data, errors) do
+  def validate(rule, val, _, errors) do
     val
     |>Enum.reduce(errors, &KV.validate_item(&1, &2, rule, val))
     |>KV.validate_max(val, rule.max)
