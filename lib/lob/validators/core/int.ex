@@ -11,7 +11,7 @@ defmodule Lob.Validators.Core.Int do
   def validate_max(errors, val, max) when is_integer(max) do
     ["#{val} is bigger than max allowed #{max}" | errors]
   end
-  def validate_max(errors, val, max) do
+  def validate_max(errors, _, max) do
     ["max needs to be an integer got max: #{inspect max} instead" | errors]
   end
 
@@ -40,7 +40,7 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Int do
   def validate(_, nil, _, errors) do
     errors
   end
-  def validate(rule, val, data, errors) when is_integer(val) do
+  def validate(rule, val, _, errors) when is_integer(val) do
     errors
     |> Int.validate_max(val, rule.max)
     |> Int.validate_min(val, rule.min)

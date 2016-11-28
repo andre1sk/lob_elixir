@@ -263,9 +263,6 @@ returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
 
 
-
-
-
 #### Error Types
 * :validation - failed local validation check
 * :network - network error

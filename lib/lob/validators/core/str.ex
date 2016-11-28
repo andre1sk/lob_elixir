@@ -66,7 +66,7 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Str do
   def validate(_, nil, _, errors) do
     errors
   end
-  def validate(rule, val, data, errors) when is_binary(val) do
+  def validate(rule, val, _, errors) when is_binary(val) do
     errors
     |> Str.validate_max(val, rule.max)
     |> Str.validate_min(val, rule.min)
