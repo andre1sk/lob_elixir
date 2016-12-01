@@ -279,7 +279,7 @@ returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
 #### States
 
-module: Lob.Resources.Countries
+module: Lob.Resources.Sates
 
 ```elixir
 Lob.Resources.States.list("YOUR_API_KEY")
