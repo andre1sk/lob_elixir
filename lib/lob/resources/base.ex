@@ -1,6 +1,6 @@
 defmodule Lob.Resources.Base do
   @moduledoc """
-  Base Module used by all other Resource Modules
+  Base Module used by most Resource Modules
   """
 
   @callback name() :: String.t

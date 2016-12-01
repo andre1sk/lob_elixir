@@ -1,11 +1,13 @@
 ## Elixir Lob.com API cleint
 
-Covered endpoints:
+Covered Resources:
 * [addresses](#addresses) - Lob.Resources.Addresses
 * [bank_accounts](#bankaccounts) - Lob.Resources.BankAccounts
 * [checks](#checks) - Lob.Resources.Checks
 * [letters](#letters) - Lob.Resources.Letters
 * [postcards](#postcards) - Lob.Resources.Postcards
+* [countries](#countries) - Lob.Resources.Countries
+* [states](#states) - Lob.Resources.States
 
 #### Install
 Note: development is still in progress
@@ -266,7 +268,23 @@ Lob.Resources.Postcards.list(%{
 ```
 returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
+#### Countries
 
+module: Lob.Resources.Countries
+
+```elixir
+Lob.Resources.Countries.list("YOUR_API_KEY")
+```
+returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
+
+#### States
+
+module: Lob.Resources.Countries
+
+```elixir
+Lob.Resources.States.list("YOUR_API_KEY")
+```
+returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
 #### Error Types
 * :validation - failed local validation check
