@@ -90,6 +90,7 @@ Lob.Resources.Addresses.list(%{
   date_created: %{gt: "2016-11-19"} #map of date/date time filters (gt,lt,gte,lte)
 }, "YOUR_API_KEY")
 ```
+returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
 ```elixir
 Lob.Resources.Addresses.verify(%{
