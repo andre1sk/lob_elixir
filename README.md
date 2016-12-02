@@ -94,13 +94,13 @@ returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
 ```elixir
 Lob.Resources.Addresses.verify(%{
-	name: "string",
+  name: "string",
   address_line1: "string",
   address_line2: "string",
   address_city: "string",
   address_state: "string",
   address_zip: "string",
-	address_country: "string 2 letter country code",
+  address_country: "string 2 letter country code",
 }, "YOUR_API_KEY")
 ```
 returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
