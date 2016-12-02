@@ -23,11 +23,13 @@ defmodule Lob.Resources.Base do
       alias Lob.Validators.Schema
 
       def create(data, api_key) do
+        uri = Base.base_uri() <> name()
         errors = Schema.validate(schema, data)
-        {status, res} = (errors == %{}) && Transform.transform(data) || {:error, errors}
+        {status, res} = (errors == %{}) && Transform.transform(data) || {:v_errors, errors}
         case status do
-          :ok -> Client.post(Base.base_uri() <> name(), res.data, api_key, res.type)
-          :error -> {:error, {:validation, res}}
+          :ok       -> Client.post(uri, res.data, api_key, res.type)
+          :error    -> {:error, {:encoding, res}}
+          :v_errors -> {:error, {:validation, res}}
         end
       end
 

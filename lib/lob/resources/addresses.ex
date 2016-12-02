@@ -13,7 +13,16 @@ defmodule Lob.Resources.Addresses do
   def delete(id, api_key) do
     case id_uri(id) do
       {:ok, uri} -> Client.delete(uri, api_key)
-      {:error, error} -> {:error, error}
+      {:error, error} -> {:error, {:encoding, error}}
+    end
+  end
+
+  def verify(address, api_key) do
+    uri = Base.base_uri <> "verify"
+    {status, res} = Transform.transform(address)
+    case status do
+      :ok -> Client.post(uri, res.data, api_key, res.type)
+      :error -> {:error, {:encoding, res}}
     end
   end
 

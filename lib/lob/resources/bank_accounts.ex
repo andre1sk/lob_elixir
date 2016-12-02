@@ -16,15 +16,15 @@ defmodule Lob.Resources.BankAccounts do
            is_integer(d2) and d2 > 0 and d2 < 101 do
     case id_uri(id) do
       {:ok, uri} -> Client.post(uri <> "/verify", [{"amounts[]", d1}, {"amounts[]", d2}], api_key)
-      {:error, error} -> {:error, error}
+      {:error, error} -> {:error, {:encoding, error}}
     end
   end
-  def verify(_,_), do: {:error, "deposits need to be ints between 1 and 100"}
+  def verify(_,_), do: {:error, {:validation, "deposits need to be ints between 1 and 100"}}
 
   def delete(id, api_key) do
     case id_uri(id) do
       {:ok, uri} -> Client.delete(uri, api_key)
-      {:error, error} -> {:error, error}
+      {:error, error} -> {:error, {:encoding, error}}
     end
   end
 

@@ -69,4 +69,30 @@ defmodule Lob.Resources.AddressesTest do
     assert data.body["deleted"] == true
   end
 
+  test "verify valid address" do
+    address = %{
+      name: "John Doe",
+      address_line1: "1600 Amphitheatre Parkway",
+      address_city: "Mountain View",
+      address_state: "CA",
+      address_country: "US",
+    }
+    {status, _} = Addresses.verify(address, api_key())
+    assert status == :ok
+  end
+
+  test "verify invalid address" do
+    address = %{
+      name: "John Doe",
+      address_line1: "1600 Amphitheatre Parkway",
+      address_city: "Mountain View",
+      address_state: "YU",
+      address_country: "US",
+    }
+    {status, {type, data}} = Addresses.verify(address, api_key())
+    assert status == :error
+    assert type == :app
+    assert data.status == 404
+  end
+
 end

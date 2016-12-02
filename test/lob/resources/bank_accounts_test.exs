@@ -27,8 +27,9 @@ defmodule Lob.Resources.BankAccountsTest do
       account_type: "company",
       signatory: "Some Dude",
     }
-    {status, _} = BankAccounts.create(acc, api_key())
+    {status, {type, _}} = BankAccounts.create(acc, api_key())
     assert status == :error
+    assert type == :app
   end
 
   test "verify bank account" do

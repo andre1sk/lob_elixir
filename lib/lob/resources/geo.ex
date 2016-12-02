@@ -2,7 +2,7 @@ defmodule Lob.Resources.Geo do
   @moduledoc """
     Base Module used by simple list Rsources
   """
-  @callback list(String.t) :: {:ok | :error, map}
+  @callback list(String.t) :: {:ok , map} | {:error, tuple}
 
   defmacro __using__(params) do
     quote do

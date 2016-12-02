@@ -55,7 +55,7 @@ Lob.Resources.Addresses.create(%{
   company: "string max length 50 you must set name company or both",
   address_line1: "string max length 200 required",
   address_line2: "string max length 200",
-  address_country: "2 letter country code",
+  address_country: "string 2 letter country code",
   address_city: "string max length 200 required for US",
   address_state: "string max length 40 required for US (2 letter code for US)",
   address_zip: "string max length 40 required for US",
@@ -90,6 +90,18 @@ Lob.Resources.Addresses.list(%{
   date_created: %{gt: "2016-11-19"} #map of date/date time filters (gt,lt,gte,lte)
 }, "YOUR_API_KEY")
 ```
+
+```elixir
+Lob.Resources.Addresses.verify(%{
+	name: "string",
+  address_line1: "string",
+  address_line2: "string",
+  address_city: "string",
+  address_state: "string",
+  address_zip: "string",
+	address_country: "string 2 letter country code",
+}, "YOUR_API_KEY")
+```
 returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
 #### BankAccounts
@@ -97,11 +109,11 @@ returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 module: Lob.Resources.BankAccounts
 ```elixir
 Lob.Resources.BankAccounts.create(%{
-  description: "string",
+  description:    "string",
   routing_number: "string 9 letters/numbers required",
   account_number: "string required",
-  account_type: "string either: company or individual",
-  signatory: "string required",
+  account_type:   "string either: company or individual",
+  signatory:      "string required",
   metadata: %{
     "map with string keys" => "and string values",
     "keys at most 40 characters " => "and value string at most 500"
@@ -288,5 +300,6 @@ returns {:ok, data} or {:error, {[error_type](#error-types), error_data}}
 
 #### Error Types
 * :validation - failed local validation check
+* :encoding - error encoding data
 * :network - network error
 * :app - application error
