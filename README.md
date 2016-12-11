@@ -1,4 +1,6 @@
-## Elixir Lob.com API cleint
+## Elixir Lob.com API client
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+ Copyright © 2016, [Andrei Skorokhod](https://github.com/andre1sk).
 
 Covered Resources:
 * [addresses](#addresses) - Lob.Resources.Addresses
@@ -10,8 +12,7 @@ Covered Resources:
 * [states](#states) - Lob.Resources.States
 
 #### Install
-Note: development is still in progress
-to install add to mix.exs deps
+To install add to mix.exs deps
 {:lob_elixir, github: "andre1sk/lob_elixir"}
 and run mix deps.get
 and add :lob_elixir to applications: [:lob_elixir] list in mix.exs
