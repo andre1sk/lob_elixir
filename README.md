@@ -1,5 +1,5 @@
 ## Elixir Lob.com API client
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/andre1sk/lob_elixir/blob/master/LICENSE.md)
  Copyright © 2016, [Andrei Skorokhod](https://github.com/andre1sk).
 
 Covered Resources:
