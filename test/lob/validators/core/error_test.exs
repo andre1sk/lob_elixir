@@ -21,5 +21,4 @@ defmodule Lob.Validators.Core.ErrorTest do
     rule = %Error{error: error}
     assert validate(rule, nil, %{}, []) == [error]
   end
-
 end

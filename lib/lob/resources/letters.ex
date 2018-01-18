@@ -9,5 +9,4 @@ defmodule Lob.Resources.Letters do
   def name, do: "letters"
 
   def schema, do: Letter.schema()
-
 end

@@ -6,7 +6,6 @@ defmodule Lob.Validators.Core.PathTest do
 
   Lob.Tests.Shared.validator(Path)
 
-
   test "produces no errors for nil" do
     rule = %Path{}
     assert validate(rule, nil, %{}, []) == []
@@ -23,5 +22,4 @@ defmodule Lob.Validators.Core.PathTest do
     path = "./test/fixtures/letterz.pdf"
     assert validate(rule, path, %{}, []) |> length == 1
   end
-
 end

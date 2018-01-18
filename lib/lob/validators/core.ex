@@ -7,10 +7,11 @@ end
 defmodule Lob.Validators.Core.Apply do
   defmacro __using__(_params) do
     quote do
-      @spec apply?(%{atom => any}, %{atom => any}) :: [String.t]
+      @spec apply?(%{atom => any}, %{atom => any}) :: [String.t()]
       def apply?(%{apply?: bool}, _) when is_boolean(bool) do
         bool
       end
+
       def apply?(%{apply?: fun}, data) when is_function(fun) do
         fun.(data)
       end

@@ -10,12 +10,14 @@ defmodule Lob.Resources.LettersTest do
   test "create valid letter" do
     {_, data} = Addresses.list(%{limit: 1}, api_key())
     id = (data.body["data"] |> hd)["id"]
+
     letter = %{
       to: id,
       from: id,
       color: true,
-      file: %{path: "./test/fixtures/letter.pdf", name: "file"},
+      file: %{path: "./test/fixtures/letter.pdf", name: "file"}
     }
+
     {status, data} = Letters.create(letter, api_key())
     assert status == :ok
     assert data.body["id"] |> String.starts_with?("ltr_")
@@ -26,10 +28,10 @@ defmodule Lob.Resources.LettersTest do
       to: "adr_xyz",
       from: "adr_xyz",
       color: true,
-      file: %{path: "./test/fixtures/letter.pdf", name: "file"},
+      file: %{path: "./test/fixtures/letter.pdf", name: "file"}
     }
+
     {status, _} = Letters.create(letter, api_key())
     assert status == :error
   end
-
 end

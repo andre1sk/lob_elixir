@@ -28,5 +28,4 @@ defmodule Lob.Validators.Core.URLTest do
     data = "http//wow.com"
     assert validate(rule, data, %{}, []) |> length == 1
   end
-
 end

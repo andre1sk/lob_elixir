@@ -14,27 +14,27 @@ defmodule Lob.Validators.Core.KVTest do
 
   test "key that viloates rule raises error" do
     rule = %KV{key: %Str{max: 2}}
-    assert validate(rule,%{"abc" => "z"},%{}, []) != []
+    assert validate(rule, %{"abc" => "z"}, %{}, []) != []
   end
 
   test "valid key does not raise error" do
     rule = %KV{key: %Str{max: 3}}
-    assert validate(rule,%{"abc" => "z"},%{}, []) == []
+    assert validate(rule, %{"abc" => "z"}, %{}, []) == []
   end
 
   test "valid value does not raise error" do
     rule = %KV{value: %Str{min: 3}}
-    assert validate(rule,%{"abc" => "zoom"},%{}, []) == []
+    assert validate(rule, %{"abc" => "zoom"}, %{}, []) == []
   end
 
   test "invalid value does raise error" do
     rule = %KV{value: %Str{min: 3}}
-    assert validate(rule,%{"abc" => "zo"},%{}, []) |> length == 1
+    assert validate(rule, %{"abc" => "zo"}, %{}, []) |> length == 1
   end
 
   test "invalid key and value result in errors" do
     rule = %KV{key: %Str{max: 3}, value: %Str{min: 3}}
-    assert validate(rule,%{"abcd" => "zo"},%{}, []) |> length == 2
+    assert validate(rule, %{"abcd" => "zo"}, %{}, []) |> length == 2
   end
 
   test "mix of valid and invalid kvs produces correct number of erros" do
@@ -60,5 +60,4 @@ defmodule Lob.Validators.Core.KVTest do
     data = %{"zzz" => "boom", "abc" => "zoooom"}
     assert validate(rule, data, %{}, []) == []
   end
-
 end

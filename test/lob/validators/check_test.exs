@@ -14,6 +14,7 @@ defmodule Lob.Validators.CheckTest do
       from: ["value is required"],
       to: ["value is required"]
     }
+
     assert validate(%Check{}, %{}, %{}, %{}) == expect
   end
 
@@ -24,6 +25,7 @@ defmodule Lob.Validators.CheckTest do
       from: "adr_12345678",
       to: ["adr_123123"]
     }
+
     assert validate(%Check{}, data, %{}, %{}) == %{}
   end
 
@@ -63,9 +65,9 @@ defmodule Lob.Validators.CheckTest do
 
   test "memo max len 40" do
     stream = Stream.cycle(["a"])
-    res = validate(%Check{}, %{memo: Enum.take(stream,40) |> Enum.join()}, %{}, %{})
+    res = validate(%Check{}, %{memo: Enum.take(stream, 40) |> Enum.join()}, %{}, %{})
     refute Map.has_key?(res, :memo)
-    res = validate(%Check{}, %{memo: Enum.take(stream,41) |> Enum.join()}, %{}, %{})
+    res = validate(%Check{}, %{memo: Enum.take(stream, 41) |> Enum.join()}, %{}, %{})
     assert Map.has_key?(res, :memo)
   end
 
@@ -90,11 +92,11 @@ defmodule Lob.Validators.CheckTest do
 
   test "message max len 400" do
     stream = Stream.cycle(["a", "b", "c"])
-    res = validate(%Check{}, %{messsage: Enum.take(stream,399) |> Enum.join()}, %{}, %{})
+    res = validate(%Check{}, %{messsage: Enum.take(stream, 399) |> Enum.join()}, %{}, %{})
     refute Map.has_key?(res, :message)
-    res = validate(%Check{}, %{messsage: Enum.take(stream,400) |> Enum.join()}, %{}, %{})
+    res = validate(%Check{}, %{messsage: Enum.take(stream, 400) |> Enum.join()}, %{}, %{})
     refute Map.has_key?(res, :message)
-    res = validate(%Check{}, %{message: Enum.take(stream,401) |> Enum.join()}, %{}, %{})
+    res = validate(%Check{}, %{message: Enum.take(stream, 401) |> Enum.join()}, %{}, %{})
     assert Map.has_key?(res, :message)
   end
 
@@ -115,6 +117,7 @@ defmodule Lob.Validators.CheckTest do
       check_bottom: %{content: "<html><body>blah</body></html>"},
       message: "I am a msg"
     }
+
     res = validate(%Check{}, data, %{}, %{})
     assert Map.has_key?(res, :check_bottom)
     assert Map.has_key?(res, :message)
@@ -133,12 +136,12 @@ defmodule Lob.Validators.CheckTest do
   end
 
   test "valid data produces no errors" do
-    res = validate(%Check{}, %{data: %{"k"=>"v"}}, %{}, %{})
+    res = validate(%Check{}, %{data: %{"k" => "v"}}, %{}, %{})
     refute Map.has_key?(res, :data)
   end
 
   test "invalid data produces  errors" do
-    res = validate(%Check{}, %{data: %{"k\""=>"v"}}, %{}, %{})
+    res = validate(%Check{}, %{data: %{"k\"" => "v"}}, %{}, %{})
     assert Map.has_key?(res, :data)
   end
 
@@ -153,5 +156,4 @@ defmodule Lob.Validators.CheckTest do
     res = validate(%Check{}, %{mail_type: "carrier_pigeon"}, %{}, %{})
     assert Map.has_key?(res, :mail_type)
   end
-
 end

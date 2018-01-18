@@ -21,5 +21,4 @@ defmodule Lob.Validators.Core.BoolTest do
     rule = %Bool{}
     assert validate(rule, 1, %{}, []) |> length == 1
   end
-
 end

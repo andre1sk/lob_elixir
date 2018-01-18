@@ -7,13 +7,12 @@ defmodule Lob.Schemas.BankAccount do
 
   def schema do
     %{
-      description: str,
+      description: str(),
       routing_number: [%Req{}, %Str{min: 9, max: 9}],
-      account_number: req_str,
+      account_number: req_str(),
       account_type: req_str_in(["company", "individual"]),
-      signatory: req_str,
-      metadata: metadata
+      signatory: req_str(),
+      metadata: metadata()
     }
   end
-
 end

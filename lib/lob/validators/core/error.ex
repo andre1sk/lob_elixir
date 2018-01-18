@@ -1,6 +1,5 @@
 defmodule Lob.Validators.Core.Error do
-  defstruct  apply?: true, error: "error"
-
+  defstruct apply?: true, error: "error"
 end
 
 defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.Error do

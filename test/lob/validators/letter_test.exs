@@ -8,8 +8,13 @@ defmodule Lob.Validators.LetterTest do
   Lob.Tests.Shared.schema_meta(Letter)
 
   test "produces errors for empty letter" do
-    expect = %{color: ["value is required"], file: ["value is required"],
-      from: ["value is required"], to: ["value is required"]}
+    expect = %{
+      color: ["value is required"],
+      file: ["value is required"],
+      from: ["value is required"],
+      to: ["value is required"]
+    }
+
     assert validate(%Letter{}, %{}, %{}, %{}) == expect
   end
 
@@ -23,7 +28,7 @@ defmodule Lob.Validators.LetterTest do
   end
 
   test "valid address_id produces no errors" do
-    id="adr_8bad937e10c42730"
+    id = "adr_8bad937e10c42730"
     res = validate(%Letter{}, %{to: id}, %{}, %{})
     refute Map.has_key?(res, :to)
     res2 = validate(%Letter{}, %{from: id}, %{}, %{})
@@ -31,7 +36,7 @@ defmodule Lob.Validators.LetterTest do
   end
 
   test "invalid address_id produces error" do
-    id="ad_8bad937e10c42730"
+    id = "ad_8bad937e10c42730"
     res = validate(%Letter{}, %{to: id}, %{}, %{})
     assert Map.has_key?(res, :to)
     res2 = validate(%Letter{}, %{from: id}, %{}, %{})
@@ -47,6 +52,7 @@ defmodule Lob.Validators.LetterTest do
       address_state: "CA",
       address_zip: "94103-1910"
     }
+
     res = validate(%Letter{}, %{to: address}, %{}, %{})
     refute Map.has_key?(res, :to)
     res2 = validate(%Letter{}, %{from: address}, %{}, %{})
@@ -62,6 +68,7 @@ defmodule Lob.Validators.LetterTest do
       address_state: "PP",
       address_zip: "94103-1910"
     }
+
     res = validate(%Letter{}, %{to: address}, %{}, %{})
     assert Map.has_key?(res, :to)
     res2 = validate(%Letter{}, %{from: address}, %{}, %{})
@@ -76,6 +83,7 @@ defmodule Lob.Validators.LetterTest do
       address_city: "Beam",
       address_zip: "z941031910"
     }
+
     res = validate(%Letter{}, %{to: address}, %{}, %{})
     refute Map.has_key?(res, :to)
     res2 = validate(%Letter{}, %{from: address}, %{}, %{})
@@ -85,8 +93,9 @@ defmodule Lob.Validators.LetterTest do
   test "invalid Int. address produces errors" do
     address = %{
       name: "Some Name",
-      address_country: "ZZ",
+      address_country: "ZZ"
     }
+
     res = validate(%Letter{}, %{to: address}, %{}, %{})
     assert Map.has_key?(res, :to)
     res2 = validate(%Letter{}, %{from: address}, %{}, %{})
@@ -106,12 +115,12 @@ defmodule Lob.Validators.LetterTest do
   end
 
   test "valid data produces no errors" do
-    res = validate(%Letter{}, %{data: %{"k"=>"v"}}, %{}, %{})
+    res = validate(%Letter{}, %{data: %{"k" => "v"}}, %{}, %{})
     refute Map.has_key?(res, :data)
   end
 
   test "invalid data produces  errors" do
-    res = validate(%Letter{}, %{data: %{"k\""=>"v"}}, %{}, %{})
+    res = validate(%Letter{}, %{data: %{"k\"" => "v"}}, %{}, %{})
     assert Map.has_key?(res, :data)
   end
 
@@ -165,5 +174,4 @@ defmodule Lob.Validators.LetterTest do
     res3 = validate(%Letter{}, %{extra_service: []}, %{}, %{})
     assert Map.has_key?(res3, :extra_service)
   end
-
 end

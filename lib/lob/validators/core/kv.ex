@@ -4,13 +4,14 @@ defmodule Lob.Validators.Core.KV do
 
   def validate_item({k, v}, errors, rule, data) do
     errors
-    |>validate_kv(k, rule.key, data)
-    |>validate_kv(v, rule.value, data)
+    |> validate_kv(k, rule.key, data)
+    |> validate_kv(v, rule.value, data)
   end
 
   def validate_kv(errors, _, nil, _) do
     errors
   end
+
   def validate_kv(errors, val, rule, data) do
     validate(rule, val, data, errors)
   end
@@ -18,14 +19,15 @@ defmodule Lob.Validators.Core.KV do
   def validate_max(errors, _, nil) do
     errors
   end
+
   def validate_max(errors, val, max) when is_integer(max) do
     len = map_size(val)
-    len <= max && errors || ["number of kv pairs #{len} > max: #{max}"| errors]
-  end
-  def validate_max(errors, _, max) do
-     ["max needs to be an integer got #{inspect max} instead"| errors]
+    (len <= max && errors) || ["number of kv pairs #{len} > max: #{max}" | errors]
   end
 
+  def validate_max(errors, _, max) do
+    ["max needs to be an integer got #{inspect(max)} instead" | errors]
+  end
 end
 
 defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.KV do
@@ -35,10 +37,10 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.KV do
   def validate(_, nil, _, errors) do
     errors
   end
+
   def validate(rule, val, _, errors) do
     val
-    |>Enum.reduce(errors, &KV.validate_item(&1, &2, rule, val))
-    |>KV.validate_max(val, rule.max)
+    |> Enum.reduce(errors, &KV.validate_item(&1, &2, rule, val))
+    |> KV.validate_max(val, rule.max)
   end
-
 end

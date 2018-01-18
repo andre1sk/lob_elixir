@@ -7,12 +7,13 @@ defmodule Lob.Validators.Base do
       def validate(_, nil, _, errors) do
         errors
       end
+
       def validate(rule, val, data, errors) do
-        if (is_function(rule.rule)) do
+        if is_function(rule.rule) do
           schema = rule.rule.()
-          apply?(rule, data) && Lob.Validators.Schema.validate(schema, val) || errors
+          (apply?(rule, data) && Lob.Validators.Schema.validate(schema, val)) || errors
         else
-          apply?(rule, data) && Validate.validate(rule.rule, val, data, errors) || errors
+          (apply?(rule, data) && Validate.validate(rule.rule, val, data, errors)) || errors
         end
       end
     end

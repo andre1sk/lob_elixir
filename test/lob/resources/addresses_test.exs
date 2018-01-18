@@ -13,8 +13,9 @@ defmodule Lob.Resources.AddressesTest do
       address_city: "Mountain View",
       address_state: "CA",
       address_zip: "94043",
-      address_country: "US",
+      address_country: "US"
     }
+
     {status, data} = Addresses.create(address, api_key())
     assert status == :ok
     assert data.body["id"] |> String.starts_with?("adr_")
@@ -26,11 +27,12 @@ defmodule Lob.Resources.AddressesTest do
       address_line1: "1600 Amphitheatre Parkway",
       address_city: "Mountain View",
       address_state: "CA",
-      address_country: "US",
+      address_country: "US"
     }
+
     {status, data} = Addresses.create(address, api_key())
     assert status == :error
-    assert data ==  {:validation, %{address_zip: ["value is required"]}}
+    assert data == {:validation, %{address_zip: ["value is required"]}}
   end
 
   test "create valid Int. address" do
@@ -38,8 +40,9 @@ defmodule Lob.Resources.AddressesTest do
       name: "John Doe",
       address_line1: "1600 Amphitheatre Parkway",
       address_city: "Kyiv",
-      address_country: "UA",
+      address_country: "UA"
     }
+
     {status, data} = Addresses.create(address, api_key())
     assert status == :ok
     assert data.body["id"] |> String.starts_with?("adr_")
@@ -49,8 +52,9 @@ defmodule Lob.Resources.AddressesTest do
     address = %{
       name: "John Doe",
       address_city: "Kyiv",
-      address_country: "UA",
+      address_country: "UA"
     }
+
     {status, data} = Addresses.create(address, api_key())
     assert status == :error
     assert data == {:validation, %{address_line1: ["value is required"]}}
@@ -61,10 +65,11 @@ defmodule Lob.Resources.AddressesTest do
       name: "John Doe delete",
       address_line1: "1600 Amphitheatre Parkway",
       address_city: "Kyiv",
-      address_country: "UA",
+      address_country: "UA"
     }
+
     {:ok, data} = Addresses.create(address, api_key())
-    {status, data} = Addresses.delete(data.body["id"] , api_key())
+    {status, data} = Addresses.delete(data.body["id"], api_key())
     assert status == :ok
     assert data.body["deleted"] == true
   end
@@ -75,8 +80,9 @@ defmodule Lob.Resources.AddressesTest do
       address_line1: "1600 Amphitheatre Parkway",
       address_city: "Mountain View",
       address_state: "CA",
-      address_country: "US",
+      address_country: "US"
     }
+
     {status, _} = Addresses.verify(address, api_key())
     assert status == :ok
   end
@@ -84,15 +90,14 @@ defmodule Lob.Resources.AddressesTest do
   test "verify invalid address" do
     address = %{
       name: "John Doe",
-      address_line1: "1600 Amphitheatre Parkway",
-      address_city: "Mountain View",
+      address_line1: "160000 Amphitheatre Parkway",
       address_state: "YU",
-      address_country: "US",
+      address_country: "US"
     }
+
     {status, {type, data}} = Addresses.verify(address, api_key())
     assert status == :error
     assert type == :app
-    assert data.status == 404
+    assert data.status == 422
   end
-
 end

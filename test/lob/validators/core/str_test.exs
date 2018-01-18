@@ -12,13 +12,13 @@ defmodule Lob.Validators.Core.StrTest do
   end
 
   test "can validate Str" do
-    rule=%Str{}
+    rule = %Str{}
     res = validate(rule, "blah", %{}, [])
     assert res == []
   end
 
   test "produces an error if passed something other then binary" do
-    rule=%Str{}
+    rule = %Str{}
     res = validate(rule, %{}, %{}, [])
     assert length(res) > 0
   end
@@ -61,9 +61,12 @@ defmodule Lob.Validators.Core.StrTest do
   end
 
   test "in is map or list" do
-    assert validate(%Str{in: "2"}, "z", %{}, []) == ["in: expecting map or list got \"2\" instead"]
+    assert validate(%Str{in: "2"}, "z", %{}, []) == [
+             "in: expecting map or list got \"2\" instead"
+           ]
+
     assert validate(%Str{in: ["z"]}, "z", %{}, []) == []
-    assert validate(%Str{in: %{"z"=>"z"}}, "z", %{}, []) == []
+    assert validate(%Str{in: %{"z" => "z"}}, "z", %{}, []) == []
   end
 
   test "value is in produces no errors" do
@@ -73,5 +76,4 @@ defmodule Lob.Validators.Core.StrTest do
   test "value is not in produces error" do
     assert validate(%Str{in: ["cool"]}, "z", %{}, []) == ["\"z\" is not in allowed list"]
   end
-
 end

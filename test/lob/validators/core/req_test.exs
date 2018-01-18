@@ -17,5 +17,4 @@ defmodule Lob.Validators.Core.ReqTest do
     res = validate(rule, nil, %{}, [])
     assert res == ["value is required"]
   end
-
 end

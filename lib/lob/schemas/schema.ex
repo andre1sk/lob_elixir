@@ -62,13 +62,13 @@ defmodule Lob.Schemas.Schema do
         [%Metadata{}]
       end
 
-      def address(field, req \\true) do
-        rule =
-          [
-            %Address{apply?: &(is_map(&1[field]))},
-            %Str{min: 1, max: 100, regex: ~r/adr_/, apply?: &(is_binary(&1[field]))}
-          ]
-        req && [%Req{} | rule] || rule
+      def address(field, req \\ true) do
+        rule = [
+          %Address{apply?: &is_map(&1[field])},
+          %Str{min: 1, max: 100, regex: ~r/adr_/, apply?: &is_binary(&1[field])}
+        ]
+
+        (req && [%Req{} | rule]) || rule
       end
     end
   end

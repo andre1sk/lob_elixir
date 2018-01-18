@@ -14,6 +14,7 @@ defmodule Lob.Validators.BankAccountTest do
       routing_number: ["value is required"],
       signatory: ["value is required"]
     }
+
     assert validate(%BankAccount{}, %{}, %{}, %{}) == expect
   end
 
@@ -24,7 +25,7 @@ defmodule Lob.Validators.BankAccountTest do
       routing_number: "123456789",
       signatory: "The Dude"
     }
+
     assert validate(%BankAccount{}, acc, %{}, %{}) == %{}
   end
-
 end

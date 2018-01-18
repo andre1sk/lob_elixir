@@ -9,5 +9,4 @@ defmodule Lob.Resources.Postcards do
   def name, do: "postcards"
 
   def schema, do: Postcard.schema()
-
 end

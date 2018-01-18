@@ -18,12 +18,35 @@ defmodule Lob.Resources.Addresses do
   end
 
   def verify(address, api_key) do
-    uri = Base.base_uri <> "verify"
-    {status, res} = Transform.transform(address)
+    endpoint =
+      case Map.get(address, :address_country, "US") do
+        "US" -> "us_verifications"
+        _ -> "intl_verifications"
+      end
+
+    uri = Base.base_uri() <> endpoint
+    {status, res} = verify_adj(address) |> Transform.transform()
+
     case status do
       :ok -> Client.post(uri, res.data, api_key, res.type)
       :error -> {:error, {:encoding, res}}
     end
   end
 
+  defp verify_adj(address) do
+    address
+    |> Map.delete(:name)
+    |> (&((Map.get(&1, :address_country) == "US" && Map.delete(&1, :address_country)) || &1)).()
+    |> change_if_exists(:address_country, :country)
+    |> change_if_exists(:address_line1, :primary_line)
+    |> change_if_exists(:address_line2, :secondary_line)
+    |> change_if_exists(:address_city, :city)
+    |> change_if_exists(:address_state, :state)
+    |> change_if_exists(:address_zip, :zip)
+  end
+
+  defp change_if_exists(address, key, to_key) do
+    ((Map.has_key?(address, key) && Map.put(address, to_key, address[key])) || address)
+    |> Map.delete(key)
+  end
 end

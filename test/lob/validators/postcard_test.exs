@@ -8,12 +8,18 @@ defmodule Lob.Validators.PostcardTest do
   Lob.Tests.Shared.schema_meta(Postcard)
 
   test "produces errors for empty postcard" do
-    expect = %{front: ["value is required"], to: ["value is required"], message: [":back or :messages is required"]}
+    expect = %{
+      front: ["value is required"],
+      to: ["value is required"],
+      message: [":back or :messages is required"],
+      back: ["value is required"]
+    }
+
     assert validate(%Postcard{}, %{}, %{}, %{}) == expect
   end
 
   test "valid address_id produces no errors" do
-    id="adr_8bad937e10c42730"
+    id = "adr_8bad937e10c42730"
     res = validate(%Postcard{}, %{to: id}, %{}, %{})
     refute Map.has_key?(res, :to)
     res2 = validate(%Postcard{}, %{from: id}, %{}, %{})
@@ -21,7 +27,7 @@ defmodule Lob.Validators.PostcardTest do
   end
 
   test "invalid address_id produces error" do
-    id="ad_8bad937e10c42730"
+    id = "ad_8bad937e10c42730"
     res = validate(%Postcard{}, %{to: id}, %{}, %{})
     assert Map.has_key?(res, :to)
     res2 = validate(%Postcard{}, %{from: id}, %{}, %{})
@@ -37,6 +43,7 @@ defmodule Lob.Validators.PostcardTest do
       address_state: "CA",
       address_zip: "94103-1910"
     }
+
     res = validate(%Postcard{}, %{to: address}, %{}, %{})
     refute Map.has_key?(res, :to)
     res2 = validate(%Postcard{}, %{from: address}, %{}, %{})
@@ -52,6 +59,7 @@ defmodule Lob.Validators.PostcardTest do
       address_state: "PP",
       address_zip: "94103-1910"
     }
+
     res = validate(%Postcard{}, %{to: address}, %{}, %{})
     assert Map.has_key?(res, :to)
     res2 = validate(%Postcard{}, %{from: address}, %{}, %{})
@@ -66,6 +74,7 @@ defmodule Lob.Validators.PostcardTest do
       address_city: "Beam",
       address_zip: "z941031910"
     }
+
     res = validate(%Postcard{}, %{to: address}, %{}, %{})
     refute Map.has_key?(res, :to)
     res2 = validate(%Postcard{}, %{from: address}, %{}, %{})
@@ -75,8 +84,9 @@ defmodule Lob.Validators.PostcardTest do
   test "invalid Int. address produces errors" do
     address = %{
       name: "Some Name",
-      address_country: "ZZ",
+      address_country: "ZZ"
     }
+
     res = validate(%Postcard{}, %{to: address}, %{}, %{})
     assert Map.has_key?(res, :to)
     res2 = validate(%Postcard{}, %{from: address}, %{}, %{})
@@ -85,33 +95,47 @@ defmodule Lob.Validators.PostcardTest do
 
   test "files with valid path and name produce no errors" do
     path = "./test/fixtures/letter.pdf"
-    res = validate(%Postcard{},
-      %{
-        front: %{path: path, name: "front"},
-        back: %{path: path, name: "back"},
-       }, %{}, %{})
+
+    res =
+      validate(
+        %Postcard{},
+        %{
+          front: %{path: path, name: "front"},
+          back: %{path: path, name: "back"}
+        },
+        %{},
+        %{}
+      )
+
     refute Map.has_key?(res, :front)
     refute Map.has_key?(res, :back)
   end
 
   test "files with invalid path and name produce errors" do
     path = "./test/fixtures/not_letter.pdf"
-    res = validate(%Postcard{},
-      %{
-        front: %{path: path, name: "front"},
-        back: %{path: path, name: "back"},
-       }, %{}, %{})
+
+    res =
+      validate(
+        %Postcard{},
+        %{
+          front: %{path: path, name: "front"},
+          back: %{path: path, name: "back"}
+        },
+        %{},
+        %{}
+      )
+
     assert Map.has_key?(res, :front)
     assert Map.has_key?(res, :back)
   end
 
   test "valid data produces no errors" do
-    res = validate(%Postcard{}, %{data: %{"k"=>"v"}}, %{}, %{})
+    res = validate(%Postcard{}, %{data: %{"k" => "v"}}, %{}, %{})
     refute Map.has_key?(res, :data)
   end
 
   test "invalid data produces  errors" do
-    res = validate(%Postcard{}, %{data: %{"k\""=>"v"}}, %{}, %{})
+    res = validate(%Postcard{}, %{data: %{"k\"" => "v"}}, %{}, %{})
     assert Map.has_key?(res, :data)
   end
 
@@ -121,7 +145,7 @@ defmodule Lob.Validators.PostcardTest do
   end
 
   test "invalid message produces error" do
-    msg = (for _ <- 1..351, do: "k") |> Enum.join
+    msg = for(_ <- 1..351, do: "k") |> Enum.join()
     res = validate(%Postcard{}, %{message: msg}, %{}, %{})
     assert Map.has_key?(res, :message)
   end
@@ -139,5 +163,4 @@ defmodule Lob.Validators.PostcardTest do
     res = validate(%Postcard{}, %{size: "4x13"}, %{}, %{})
     assert Map.has_key?(res, :size)
   end
-
 end

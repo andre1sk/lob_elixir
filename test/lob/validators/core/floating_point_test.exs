@@ -26,5 +26,4 @@ defmodule Lob.Validators.Core.FloatingPointTest do
     assert validate(rule, 2.0, %{}, []) == []
     assert validate(rule, 2.1, %{}, []) == []
   end
-
 end

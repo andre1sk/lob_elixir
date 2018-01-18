@@ -45,5 +45,4 @@ defmodule Lob.Validators.Core.FileTest do
     value = %{path: "./test/fixtures/letter.pdf", name: "letter"}
     assert validate(rule, value, %{}, []) == []
   end
-
 end

@@ -1,5 +1,5 @@
 defmodule Lob.Validators.BankAccount do
-  defstruct [apply?: true, rule: &Lob.Schemas.BankAccount.schema/0]
+  defstruct apply?: true, rule: &Lob.Schemas.BankAccount.schema/0
 end
 
 defimpl Lob.Validators.Core.Validate, for: Lob.Validators.BankAccount do

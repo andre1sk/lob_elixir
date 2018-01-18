@@ -9,9 +9,9 @@ defmodule Lob.Validators.Core.File do
   def validate_only_one(errors, val) do
     has =
       [:content, :path, :url]
-      |> Enum.reduce(0, &(Map.has_key?(val, &1) && &2+1 || &2))
+      |> Enum.reduce(0, &((Map.has_key?(val, &1) && &2 + 1) || &2))
 
-    has == 1 && errors || ["Exectly one of :content, :path, :url must be set"| errors]
+    (has == 1 && errors) || ["Exectly one of :content, :path, :url must be set" | errors]
   end
 
   def validate_name(errors, rule, val, data) do
@@ -31,14 +31,17 @@ defimpl Lob.Validators.Core.Validate, for: Lob.Validators.Core.File do
   def validate(_, nil, _, errors) do
     errors
   end
+
   def validate(rule, val, data, errors) do
     only_one_errors = File.validate_only_one(errors, val)
+
     if only_one_errors == [] do
       key =
         [:content, :path, :url]
-        |> Enum.reduce(nil, &(Map.has_key?(val, &1) && &1 || &2))
-      v_errors= Validate.validate(Map.get(rule, key) , val[key], data, errors)
-      key == :path && File.validate_name(v_errors, rule.name, val, data) || v_errors
+        |> Enum.reduce(nil, &((Map.has_key?(val, &1) && &1) || &2))
+
+      v_errors = Validate.validate(Map.get(rule, key), val[key], data, errors)
+      (key == :path && File.validate_name(v_errors, rule.name, val, data)) || v_errors
     else
       only_one_errors
     end

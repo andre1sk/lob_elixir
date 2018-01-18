@@ -19,13 +19,13 @@ defmodule Lob.Validators.DataTest do
 
   test "produces error for too many pairs" do
     rule = %Data{}
-    metadata = for i <- 1..41, into: %{} ,do: {"k" <> to_string(i), "blah"}
+    metadata = for i <- 1..41, into: %{}, do: {"k" <> to_string(i), "blah"}
     assert validate(rule, metadata, %{}, []) |> length == 1
   end
 
   test "produces no errors for 40 pairs" do
     rule = %Data{}
-    metadata = for i <- 1..40, into: %{} ,do: {"k" <> to_string(i), "blah"}
+    metadata = for i <- 1..40, into: %{}, do: {"k" <> to_string(i), "blah"}
     assert validate(rule, metadata, %{}, []) == []
   end
 end

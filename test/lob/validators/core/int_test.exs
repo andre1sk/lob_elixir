@@ -26,5 +26,4 @@ defmodule Lob.Validators.Core.IntTest do
     assert validate(rule, 2, %{}, []) == []
     assert validate(rule, 3, %{}, []) == []
   end
-
 end

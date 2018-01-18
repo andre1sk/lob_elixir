@@ -9,5 +9,4 @@ defmodule Lob.Resources.Checks do
   def name, do: "checks"
 
   def schema, do: Check.schema()
-
 end

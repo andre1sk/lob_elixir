@@ -28,15 +28,18 @@ defmodule Lob.Validators.SchemaTest do
   end
 
   test "produces error for missing required field if apply is function evaluating to true" do
-    res = Schema.validate(%{k: [%Str{max: 5}],
-      z: [%Req{apply?: &(Map.has_key?(&1, :k))}]}, %{k: "lob"})
+    res =
+      Schema.validate(%{k: [%Str{max: 5}], z: [%Req{apply?: &Map.has_key?(&1, :k)}]}, %{k: "lob"})
+
     assert res == %{z: ["value is required"]}
   end
 
   test "produces no error for missing required field if apply is function evaluating to false" do
-    res = Schema.validate(%{k: [%Str{max: 5}],
-      z: [%Req{apply?: &(!Map.has_key?(&1, :k))}]}, %{k: "lob"})
+    res =
+      Schema.validate(%{k: [%Str{max: 5}], z: [%Req{apply?: &(!Map.has_key?(&1, :k))}]}, %{
+        k: "lob"
+      })
+
     assert res == %{}
   end
-
 end

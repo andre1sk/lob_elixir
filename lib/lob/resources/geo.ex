@@ -2,7 +2,7 @@ defmodule Lob.Resources.Geo do
   @moduledoc """
     Base Module used by simple list Rsources
   """
-  @callback list(String.t) :: {:ok , map} | {:error, tuple}
+  @callback list(String.t()) :: {:ok, map} | {:error, tuple}
 
   defmacro __using__(params) do
     quote do
@@ -12,14 +12,14 @@ defmodule Lob.Resources.Geo do
 
       def list(api_key) do
         case Client.get(Base.base_uri() <> unquote(params[:name]), api_key) do
-          {:ok, res}      -> {:ok, format(res)}
+          {:ok, res} -> {:ok, format(res)}
           {:error, error} -> {:error, error}
         end
       end
 
       defp format(res) do
         res.body["data"]
-        |> Enum.reduce(%{}, &(Map.put(&2, &1["short_name"], &1["name"])))
+        |> Enum.reduce(%{}, &Map.put(&2, &1["short_name"], &1["name"]))
       end
     end
   end
