@@ -1,6 +1,8 @@
 ## Elixir Lob.com API client
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/andre1sk/lob_elixir/blob/master/LICENSE.md)
  Copyright © 2016, [Andrei Skorokhod](https://github.com/andre1sk).
+ 
+ 02/22/2018 -- Lob has an [official Elixir client](https://github.com/lob/lob-elixir) out now which you prob. should be using 
 
 Covered Resources:
 * [addresses](#addresses) - Lob.Resources.Addresses
